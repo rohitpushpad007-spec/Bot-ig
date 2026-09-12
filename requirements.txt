@@ -1,5 +1,3 @@
-# instagrapi: install separately first with:
-#   pip install --extra-index-url https://termux-user-repository.github.io/pypi/ instagrapi
-# (needed so pydantic-core gets a prebuilt Termux wheel instead of compiling with Rust)
 python-telegram-bot==21.*
 python-dotenv==1.0.*
+instagrapi
