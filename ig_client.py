@@ -91,7 +91,7 @@ def classify(url: str) -> str | None:
 
 # --- Downloaders (each picks the next account automatically) ---------------
 
-def download_post_or_reel(url: str) -> list[str]:
+def download_post_or_reel(url: str) -> tuple[list[str], str | None]:
     cl = get_client()
     pk = cl.media_pk_from_url(url)
     info = cl.media_info(pk)
@@ -107,17 +107,18 @@ def download_post_or_reel(url: str) -> list[str]:
         ps = cl.album_download(pk, folder=config.DOWNLOAD_DIR)
         paths.extend(str(p) for p in ps)
 
-    return paths
+    caption = info.caption_text or None
+    return paths, caption
 
 
-def download_story_by_url(url: str) -> list[str]:
+def download_story_by_url(url: str) -> tuple[list[str], None]:
     cl = get_client()
     story_pk = cl.story_pk_from_url(url)
     path = cl.story_download(story_pk, folder=config.DOWNLOAD_DIR)
-    return [str(path)]
+    return [str(path)], None
 
 
-def download_all_user_stories(username: str) -> list[str]:
+def download_all_user_stories(username: str) -> tuple[list[str], None]:
     cl = get_client()
     user_id = cl.user_id_from_username(username)
     stories = cl.user_stories(user_id)
@@ -125,17 +126,17 @@ def download_all_user_stories(username: str) -> list[str]:
     for story in stories:
         p = cl.story_download(story.pk, folder=config.DOWNLOAD_DIR)
         paths.append(str(p))
-    return paths
+    return paths, None
 
 
-def download_highlight(highlight_pk: str) -> list[str]:
+def download_highlight(highlight_pk: str) -> tuple[list[str], None]:
     cl = get_client()
     info = cl.highlight_info(f"highlight:{highlight_pk}")
     paths = []
     for item in info.items:
         p = cl.story_download(item.pk, folder=config.DOWNLOAD_DIR)
         paths.append(str(p))
-    return paths
+    return paths, None
 
 
 def resolve_share_link(url: str) -> str:

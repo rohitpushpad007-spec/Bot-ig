@@ -20,6 +20,11 @@ if _single and _single not in IG_SESSIONIDS:
 _allowed = os.getenv("ALLOWED_USER_ID", "").strip()
 ALLOWED_USER_ID = int(_allowed) if _allowed else None
 
+# Optional: paste the full content of a YouTube cookies.txt export here
+# (Netscape format) to let yt-dlp download YouTube videos without being
+# blocked as a bot. Leave empty to skip — Pinterest/Instagram don't need this.
+YOUTUBE_COOKIES = os.getenv("YOUTUBE_COOKIES", "").strip()
+
 DOWNLOAD_DIR = "downloads"
 
 if not BOT_TOKEN:
