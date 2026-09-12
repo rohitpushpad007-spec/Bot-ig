@@ -1,9 +1,13 @@
+print("STEP 1: python started", flush=True)
+
 import asyncio
 import logging
 import os
 import re
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
+
+print("STEP 2: stdlib imports done", flush=True)
 
 from telegram import Update, ReactionTypeEmoji
 from telegram.ext import (
@@ -14,19 +18,14 @@ from telegram.ext import (
     filters,
 )
 
+print("STEP 3: python-telegram-bot imported", flush=True)
+
 import config
+
+print("STEP 4: config imported", flush=True)
+
 import ig_client
+
+print("STEP 5: ig_client (instagrapi) imported", flush=True)
+
 import other_downloads
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-IG_URL_RE = re.compile(r"https?://(?:www\.)?instagram\.com/\S+")
-OTHER_URL_RE = re.compile(
-    r"https?://(?:www\.)?(youtube\.com|youtu\.be|pinterest\.[a-z.]+|pin\.it)/\S+"
-)
-ANY_URL_RE = re.compile(r"https?://\S+")
-
-# Note: Telegram only allows a fixed set of reaction emojis for bots.
-# A robotic-arm-style emoji (like the one you saw) isn't in that set, so we
-# use a close, allowed substitute to signal "processing".
