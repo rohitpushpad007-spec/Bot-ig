@@ -30,3 +30,18 @@ def download_with_ytdlp(url: str) -> list[str]:
     ydl_opts = {
         "outtmpl": outtmpl,
         "format": "bestvideo[filesize<50M]+bestaudio/best[filesize<50M]/best",
+    "merge_output_format": "mp4",
+        "noplaylist": True,
+        "quiet": True,
+        "no_warnings": True,
+    }
+
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=True)
+        filename = ydl.prepare_filename(info)
+        # merge_output_format may change the extension after download
+        p = Path(filename)
+        if not p.exists():
+            p = p.with_suffix(".mp4")
+        return [str(p)] if p.exists() else []
+        
