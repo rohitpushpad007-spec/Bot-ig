@@ -30,7 +30,7 @@ def download_with_ytdlp(url: str) -> list[str]:
     ydl_opts = {
         "outtmpl": outtmpl,
         "format": "bestvideo[filesize<50M]+bestaudio/best[filesize<50M]/best",
-    "merge_output_format": "mp4",
+        "merge_output_format": "mp4",
         "noplaylist": True,
         "quiet": True,
         "no_warnings": True,
@@ -44,4 +44,3 @@ def download_with_ytdlp(url: str) -> list[str]:
         if not p.exists():
             p = p.with_suffix(".mp4")
         return [str(p)] if p.exists() else []
-        
